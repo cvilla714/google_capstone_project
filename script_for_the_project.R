@@ -97,7 +97,7 @@ tail(all_trips)
 #displays the statistical summary of the whole data frame.
 summary(all_trips)
 
-#checking the amount of users per labe
+#checking the amount of users per label
 table(all_trips$member_casual)
 
 # Add columns that list the date, month, day, and year of each ride
@@ -138,3 +138,38 @@ tail(all_trips_v2)
 
 #looks at column names
 colnames(all_trips_v2)
+
+
+# STEP 4: CONDUCT DESCRIPTIVE ANALYSIS
+#=====================================
+# Descriptive analysis on ride_length (all figures in seconds)
+#straight average (total ride length / rides)
+mean(all_trips_v2$ride_length)
+
+#midpoint number in the ascending array of ride lengths
+median(all_trips_v2$ride_length)
+
+#longest ride
+max(all_trips_v2$ride_length)
+
+#shortest ride
+min(all_trips_v2$ride_length)
+
+# You can condense the four lines above to one line using summary() on the specific attribute
+summary(all_trips_v2$ride_length)
+
+# Compare members and casual users
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = mean)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = median)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = max)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = min)
+
+# See the average ride time by each day for members vs casual users
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
+
+# Notice that the days of the week are out of order. Let's fix that
+all_trips_v2$day_of_week <- ordered(all_trips_v2$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
+
+# Now, let's run the average ride time by each day for members vs casual users
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
+
