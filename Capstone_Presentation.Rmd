@@ -39,38 +39,6 @@ m12_2021 <- read.csv("202112-divvy-tripdata.csv")
 ```
 
 ## STEP 2: WRANGLE DATA AND COMBINE INTO A SINGLE FILE
-### Display all colums for each variable
-```{r warning=FALSE}
-colnames(m1_2021)
-colnames(m2_2021)
-colnames(m3_2021)
-colnames(m4_2021)
-colnames(m5_2021)
-colnames(m6_2021)
-colnames(m7_2021)
-colnames(m8_2021)
-colnames(m9_2021)
-colnames(m10_2021)
-colnames(m11_2021)
-colnames(m12_2021)
-```
-
-### Display the structure of each data frame
-```{r warning=FALSE}
-str(m1_2021)
-str(m2_2021)
-str(m3_2021)
-str(m4_2021)
-str(m5_2021)
-str(m6_2021)
-str(m7_2021)
-str(m8_2021)
-str(m9_2021)
-str(m10_2021)
-str(m11_2021)
-str(m12_2021)
-```
-
 ### Stack individual quarter's data frames into one big data frame
 ```{r warning=FALSE}
 all_trips <- bind_rows(m1_2021,m2_2021,m3_2021,m4_2021,m5_2021,m6_2021,m7_2021,m8_2021,m9_2021,m10_2021,m11_2021,m12_2021)
@@ -84,32 +52,6 @@ all_trips <- all_trips %>%
 
 
 ## STEP 3: CLEAN UP AND ADD DATA TO PREPARE FOR ANALYSIS
-### Listing all columns from the new data frame
-```{r warning=FALSE}
-colnames(all_trips)
-```
-
-### Display the structure of the new data frame
-```{r warning=FALSE}
-str(all_trips)
-```
-
-### Dislay the dimensions of the data frame
-```{r warning=FALSE}
-dim(all_trips)
-```
-
-### Show the first 6 rows of the data frame
-```{r warning=FALSE}
-head(all_trips)
-```
-
-
-### Show the last 6 rows of the data frame
-```{r warning=FALSE}
-tail(all_trips)
-```
-
 ### Displays the statistical summary of the whole data frame
 ```{r warning=FALSE}
 summary(all_trips)
@@ -119,7 +61,6 @@ summary(all_trips)
 ```{r warning=FALSE}
 table(all_trips$member_casual)
 ```
-
 
 ### Add columns that list the date, month, day, and year of each ride
 ```{r warning=FALSE}
@@ -156,30 +97,6 @@ data("all_trips_v2")
 ```
 
 # STEP 4: CONDUCT DESCRIPTIVE ANALYSIS
-### #straight average (total ride length / rides)
-```{r warning=FALSE}
-mean(all_trips_v2$ride_length)
-```
-
-
-## Midpoint number in the ascending array of ride lengths
-```{r warning=FALSE}
-median(all_trips_v2$ride_length)
-```
-
-
-### Longest ride
-
-```{r warning=FALSE}
-max(all_trips_v2$ride_length)
-```
-
-
-### Shortest ride
-```{r warning=FALSE}
-min(all_trips_v2$ride_length)
-```
-
 ### Summary(all_trips_v2$ride_length)
 ```{r warning=FALSE}
 summary(all_trips_v2$ride_length)
@@ -202,19 +119,12 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$rideable_type, FUN = min)
 
 ```
 
-### See the average ride time by each day for members vs casual users
-```{r}
-aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
-```
-
 ### Re arrange the days to show in order 
 ```{r warning=FALSE}
 all_trips_v2$day_of_week <- ordered(all_trips_v2$day_of_week, levels=c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"))
 ```
 
 ### Visualization including rideable_types
-
-
 ```{r warning=FALSE}
 all_trips_v2 %>% 
   mutate(weekday = wday(started_at, label = TRUE)) %>% 
@@ -227,9 +137,6 @@ all_trips_v2 %>%
 ```
 
 ### Visualization for average duration
-
-
-
 ```{r warning=FALSE}
 all_trips_v2 %>% 
   mutate(weekday = wday(started_at, label = TRUE)) %>% 
@@ -242,8 +149,6 @@ all_trips_v2 %>%
 ```
 
 ### Visualize the number of rides by rider type
-
-
 ```{r warning=FALSE}
 all_trips_v2 %>% 
   mutate(weekday = wday(started_at, label = TRUE)) %>% 
