@@ -114,7 +114,21 @@ str(all_trips)
 # Add a "ride_length" calculation to all_trips (in seconds)
 all_trips$ride_length <- difftime(all_trips$ended_at,all_trips$started_at)
 
+#apply round to get 2 digits only
+all_trips$ride_length <- round(difftime(all_trips$ended_at,all_trips$started_at,units = "mins"),2)
+
+#this doesn't work
+all_trips$ride_length <- Math(difftime(c(all_trips$ended_at,all_trips$started_at),units = "%H:%M:%S"))
+
+#this doesn't work
+all_trips$ride_length <- difftime(all_trips$ended_at,all_trips$started_at,units = "mins","secs")
+
+#format to try to apply
+as.difftime(c("3:20", "23:15", "2:"), format = "%H:%M")
+
+
 str(all_trips)
+
 
 
 # Convert "ride_length" from Factor to numeric so we can run calculations on the data
@@ -164,6 +178,14 @@ aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = median)
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = max)
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual, FUN = min)
 
+
+# Compare bykes per type
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$rideable_type, FUN = mean)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$rideable_type, FUN = median)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$rideable_type, FUN = max)
+aggregate(all_trips_v2$ride_length ~ all_trips_v2$rideable_type, FUN = min)
+
+
 # See the average ride time by each day for members vs casual users
 aggregate(all_trips_v2$ride_length ~ all_trips_v2$member_casual + all_trips_v2$day_of_week, FUN = mean)
 
@@ -181,6 +203,15 @@ all_trips_v2 %>%
   summarise(number_of_rides = n()							              # calculates the number of rides and average duration 
             ,average_duration = mean(ride_length)) %>% 		  # calculates the average duration
   arrange(member_casual, weekday)							              # sorts
+
+
+#rides per rideable_type
+all_trips_v2 %>% 
+  mutate(weekday = wday(started_at, label = TRUE)) %>%      #creates weekday field using wday()
+  group_by(member_casual, weekday,rideable_type) %>%        # groups by usertype and weekday
+  summarise(number_of_rides = n()							              # calculates the number of rides and average duration 
+            ,average_duration = mean(ride_length)) %>% 		  # calculates the average duration
+  arrange(member_casual, weekday)							    
 
 # Let's visualize the number of rides by rider type
 all_trips_v2 %>% 
@@ -200,6 +231,17 @@ all_trips_v2 %>%
             ,average_duration = mean(ride_length)) %>% 
   arrange(member_casual, weekday)  %>% 
   ggplot(aes(x = weekday, y = average_duration, fill = member_casual)) +
+  geom_col(position = "dodge")
+
+
+#Add visualization including rideable_types
+all_trips_v2 %>% 
+  mutate(weekday = wday(started_at, label = TRUE)) %>% 
+  group_by(member_casual, weekday,rideable_type) %>% 
+  summarise(number_of_rides = n()
+            ,average_duration = mean(ride_length)) %>% 
+  arrange(member_casual, weekday,rideable_type)  %>% 
+  ggplot(aes(x = weekday, y = average_duration, fill = rideable_type)) +
   geom_col(position = "dodge")
 
 #this is how to write content to a csv file located onedrive
