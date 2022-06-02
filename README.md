@@ -12,7 +12,7 @@ Additional description about the project and its features.
 
 ## Live Demo
 
-[Live Demo Link](https://enigmatic-bastion-06146.herokuapp.com/)
+[Live Demo Link](https://rpubs.com/cvilla714/rides)
 
 ## Getting Started
 
