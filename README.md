@@ -29,7 +29,8 @@ To get a local copy up and running follow these simple example steps.
 
 ### How to run the project
 
--   Once in RStudio open the Capstone_Presentation.Rmd
+-   First you will need to unzip all files that are necessary to run the project
+-   Once in RStudio make sure you moved all csv files inside your working folder and open the Capstone_Presentation.Rmd
 -   click on the option to knit the current project or press Control + Shift + k to run all of the commands and develop the whole report
 
 ### Usage
